@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VMB Statue Store - Marble Murtis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .product-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 250px;
+            margin: 15px;
+            text-align: center;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: scale(1.03);
+        }
+        .product-card img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .product-card h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .product-card p {
+            font-size: 16px;
+            color: #555;
+        }
+        .buy-button {
+            background-color: #ff9900;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .buy-button:hover {
+            background-color: #e68a00;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            padding-top: 100px;
+        }
+        .modal-content {
+            background-color: white;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+        }
+        .payment-option, .size-option {
+            margin: 10px 0;
+        }
+        .order-confirm-button {
+            background-color: green;
+            color: white;
+            padding: 10px 15px;
+            margin-top: 15px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .order-confirm-button:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    VMB Statue Store - Marble Murtis
+</header>
+
+<div class="container">
+
+    <div class="product-card">
+        <img src="murti1.jpg" alt="Marble Murti 1">
+        <h3>Marble Murti Krishna</h3>
+        <p>Price: ₹5,000</p>
+        <p><strong>About:</strong> Beautiful marble Krishna Murti handcrafted by skilled artisans.</p>
+        <button class="buy-button" onclick="openOrder('Marble Murti Krishna', 5000)">Order Now</button>
+    </div>
+
+    <div class="product-card">
+        <img src="murti2.jpg" alt="Marble Murti 2">
+        <h3>Marble Murti Ganesh</h3>
+        <p>Price: ₹4,500</p>
+        <p><strong>About:</strong> Bless your home with this stunning white marble Ganesh idol.</p>
+        <button class="buy-button" onclick="openOrder('Marble Murti Ganesh', 4500)">Order Now</button>
+    </div>
+
+    <div class="product-card">
+        <img src="murti3.jpg" alt="Marble Murti 3">
+        <h3>Marble Murti Durga</h3>
+        <p>Price: ₹6,000</p>
+        <p><strong>About:</strong> Majestic Durga Mata murti carved from premium marble.</p>
+        <button class="buy-button" onclick="openOrder('Marble Murti Durga', 6000)">Order Now</button>
+    </div>
+
+    <!-- Add more products here -->
+
+</div>
+
+<!-- Modal for Order -->
+<div id="orderModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeOrder()">&times;</span>
+    <h2 id="orderTitle"></h2>
+    <p id="orderPrice"></p>
+
+    <div class="size-option">
+        <label for="size">Choose Size:</label>
+        <select id="size">
+            <option value="Small">Small</option>
+            <option value="Medium">Medium</option>
+            <option value="Large">Large</option>
+        </select>
+    </div>
+
+    <div class="payment-option">
+        <label for="payment">Payment Option:</label>
+        <select id="payment">
+            <option value="Cash on Delivery">Cash on Delivery</option>
+            <option value="Online Payment">Online Payment</option>
+        </select>
+    </div>
+
+    <button class="order-confirm-button" onclick="confirmOrder()">Confirm Order</button>
+  </div>
+</div>
+
+<script>
+    let selectedProduct = "";
+    let selectedPrice = 0;
+
+    function openOrder(productName, price) {
+        selectedProduct = productName;
+        selectedPrice = price;
+        document.getElementById('orderTitle').innerText = productName;
+        document.getElementById('orderPrice').innerText = "Price: ₹" + price;
+        document.getElementById('orderModal').style.display = "block";
+    }
+
+    function closeOrder() {
+        document.getElementById('orderModal').style.display = "none";
+    }
+
+    function confirmOrder() {
+        let size = document.getElementById('size').value;
+        let payment = document.getElementById('payment').value;
+        alert("Order Confirmed!\n\nProduct: " + selectedProduct + "\nPrice: ₹" + selectedPrice + "\nSize: " + size + "\nPayment Mode: " + payment);
+        closeOrder();
+    }
+
+    window.onclick = function(event) {
+        let modal = document.getElementById('orderModal');
+        if (event.target == modal) {
+            closeOrder();
+        }
+    }
+</script>
+
+</body>
+</html>
